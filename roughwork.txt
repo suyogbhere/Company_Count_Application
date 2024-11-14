@@ -1,0 +1,60 @@
+<div class="container">
+    <div class="row my-3">
+     <div class="col-sm-6 offset-sm-3 border shadow p-4">
+      <h3>Upload Data</h3>
+      <hr>
+      <form action="" method="post" enctype="multipart/form-data"  class="shadow p-5">
+       {% csrf_token %}
+           {% for fm in form %}
+               <div>
+                   {{fm.label_tag}}{{fm}}
+                   <small class="text-danger">{{fm.errors|striptags}}</small> <br>
+               </div>
+           {% endfor %}
+           <input type="submit" class="btn btn-primary mt-4" value="Signup">
+   
+           {% if form.non_field_errors %}
+               {% for error in form.non_field_errors %}
+                   <p class="alert alert-danger my-3">{{error}}</p>
+               {% endfor %}
+           {% endif %}
+      </form>
+     </div>
+    </div>
+</div>
+------------------------------------------------------------------------------------------------------------------
+
+<label for="id_login">Username:</label>
+<input type="text" name="login" placeholder="Username" autocomplete="username" maxlength="150" required="" id="id_login" fdprocessedid="y6ekl">
+<br>
+
+<label for="id_password">Password:</label>  
+<input type="password" name="password" placeholder="Password" autocomplete="current-password" required="" aria-describedby="id_password_helptext" id="id_password" fdprocessedid="08mwnh">
+
+<input type="submit" class="btn btn-primary mt-4" value="Login" fdprocessedid="hmotyk">
+
+
+----------------------------------------------------------------------------------------------------------------------
+
+def filter_emp_page(request):
+    if request.method == 'POST':
+        nm=request.POST['nm']
+        dp=request.POST['dp']
+        ro=request.POST['ro']
+        print(nm,dp,ro)
+        emps=Employee.objects.all()
+        if nm:
+            emps=emps.filter(Q(first_name__icontains = nm) | Q(last_name__icontains = nm))
+        if dp:
+            emps=emps.filter(dept__name__icontains = dp)
+        if ro:
+            emps = emps.filter(role__name__icontains = ro)
+        context={
+            'emps': emps
+        }
+        return render(request,'allemp.html',context)
+
+    elif request.method == 'GET':
+        return render(request,'filteremp.html')
+    else:
+        return HttpResponse('An Exception Occured!!')

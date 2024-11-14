@@ -1,6 +1,8 @@
 from django.shortcuts import render
+from django.contrib import messages
 from app.models import File, Company_data
 import pandas as pd
+from django.db.models import Q
 
 # Create your views here.
 
@@ -10,17 +12,60 @@ def index(request):
 
 def create_db(file_path):
     df = pd.read_csv(file_path, delimiter=',')
-
+    print(df.values)
+    list_of_csv = [list(row)  for row in df.values]
+    for l in list_of_csv:
+        Company_data.objects.create(
+            id = l[0],
+            name = l[1],
+            domain = l[2],
+            year_founded = l[3],
+            industry = l[4],
+            size_range = l[5],
+            locality = l[6],
+            country = l[7],
+            linkedin_url = l[8],
+            current_employee_estimate = l[9],
+            total_employee_estimate = l[10],
+        )
 
 def upload_data(request):
     if request.method == 'POST':
         file = request.FILES['file']
-        File.obj.create(file=file)
+        obj = File.objects.create(file=file)
+        create_db(obj.file)
     return render(request, 'app/upload_data.html')
 
 
+
 def query_builder(request):
-    return render(request, 'app/query_builder.html')
+    if request.method == 'POST':
+        ef = request.POST['id1']
+        et = request.POST['id2']
+        nm = request.POST['name']
+        ind = request.POST['industry']
+        yf = request.POST['year_founded']
+        ct = request.POST['city']
+        st = request.POST['state']
+        con = request.POST['country']
+        if ef and et:
+            Employee = Company_data.objects.filter(Q(id__gte=ef)&Q(id__lte=et))
+        elif nm:
+            Employee = Company_data.objects.filter(name=nm)
+        elif ind:
+            Employee = Company_data.objects.filter(industry__icontains=ind)
+        elif yf:
+            Employee = Company_data.objects.filter(year_founded__exact=yf)
+        elif ct:
+            Employee = Company_data.objects.filter(locality__icontains=ct)
+        elif st:
+            Employee = Company_data.objects.filter(locality__icontains=st)
+        elif con:
+            Employee = Company_data.objects.filter(country__icontains=con)  
+        count = Employee.count()
+        print(count)    
+        messages.success(request,f'{count} Records found for the query')
+    return render(request, 'app/query_builder.html', locals())
 
 
 def login(request):

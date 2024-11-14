@@ -10,4 +10,5 @@ urlpatterns=[
     path('accounts/signup/',auth_views.SignupView.as_view(template_name='app/signup.html'),name='account_signup'),   #SignupForm
     path('accounts/logout/',auth_views.LogoutView.as_view(),name='account_logout'),
     path('upload_data/', views.upload_data, name='upload_data'),
+    path('query_builder/', views.query_builder, name='query_builder'),
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

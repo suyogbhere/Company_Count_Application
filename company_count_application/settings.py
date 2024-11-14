@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'app',
     'allauth',
     'allauth.account',
-
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -146,6 +146,15 @@ MEDIA_ROOT=BASE_DIR / 'Data_Files'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS={
+    messages.ERROR:'danger',
+    messages.DEBUG:'secondary',
+    messages.INFO:'info',
+    messages.SUCCESS:'success',
+    messages.WARNING:'warning',
+} 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
