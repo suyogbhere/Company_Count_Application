@@ -3,11 +3,14 @@ from django.contrib import messages
 from app.models import File, Company_data
 import pandas as pd
 from django.db.models import Q
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from allauth.account.forms import LoginForm
 
 # Create your views here.
 
 def index(request):
-    return render(request, 'app/index.html')
+    return render(request, 'app/profile.html')
 
 
 def create_db(file_path):
@@ -29,6 +32,7 @@ def create_db(file_path):
             total_employee_estimate = l[10],
         )
 
+@login_required
 def upload_data(request):
     if request.method == 'POST':
         file = request.FILES['file']
@@ -36,8 +40,7 @@ def upload_data(request):
         create_db(obj.file)
     return render(request, 'app/upload_data.html')
 
-
-
+@login_required
 def query_builder(request):
     if request.method == 'POST':
         ef = request.POST['id1']
@@ -67,10 +70,17 @@ def query_builder(request):
         messages.success(request,f'{count} Records found for the query')
     return render(request, 'app/query_builder.html', locals())
 
-
 def login(request):
-    return render(request, 'app/query_builder.html')
+    return render(request, 'app/login.html')
 
 
 def logout(request):
-    return render(request, 'app/query_builder.html')
+    form = LoginForm()
+    return render(request, 'app/logout.html',locals())
+
+@login_required
+def User_show(request):
+    users = User.objects.all()
+    return render(request, 'app/users.html',{'users':users})
+
+        

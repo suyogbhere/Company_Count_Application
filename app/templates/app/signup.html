@@ -6,18 +6,18 @@
 
 <div class="container">
     <div class="row my-3">
-     <div class="col-sm-6 offset-sm-3 border shadow p-4">
+     <div class="col-sm-5 offset-sm-3 border shadow p-3">
       <h3>Signup</h3>
       <hr>
-      <form action="" method="post" novalidate class="shadow p-5">
+      <form action="" method="post" novalidate class="shadow p-3">
        {% csrf_token %}
            {% for fm in form %}
                <div>
-                   {{fm.label_tag}}{{fm}}
-                   <small class="text-danger">{{fm.errors|striptags}}</small> <br>
+                   {{fm}} <br>
+                   <small class="text-danger">{{fm.errors|striptags}}</small>
                </div>
            {% endfor %}
-           <input type="submit" class="btn btn-primary mt-4" value="Signup">
+           <input type="submit" class="btn btn-primary mt-2" value="Signup">
    
            {% if form.non_field_errors %}
                {% for error in form.non_field_errors %}

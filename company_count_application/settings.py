@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'app',
     'allauth',
     'allauth.account',
-    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -163,4 +162,15 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',  # Allauth backend
 ]
 
-LOGOUT_REDIRECT_URL ="/accounts/login"
+LOGOUT_REDIRECT_URL ="/"
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+
+#Django all-auth forms customization
+ACCOUNT_FORMS = {
+    'signup': 'app.forms.CustomSignupForm',
+    'login' : 'app.forms.CustomLoginForm',
+}

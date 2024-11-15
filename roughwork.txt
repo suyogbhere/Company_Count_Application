@@ -58,3 +58,16 @@ def filter_emp_page(request):
         return render(request,'filteremp.html')
     else:
         return HttpResponse('An Exception Occured!!')
+
+
+
+     <!-- <div class="form-group">
+          <input type="file" name="file" id="UploadFile" class="form-control" value="Select File">
+      </div>  -->
+
+
+.form-check-input {
+    position: absolute;
+    margin-top: .4rem;
+    margin-left: 2.15rem;
+}
