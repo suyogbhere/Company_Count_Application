@@ -2,8 +2,8 @@
 
 https://github.com/suyogbhere/Company_Count_Application/tree/master
 
-Python Version: Python 3.12.0
-Bootstrap Version: 4.0
+- Python Version: Python 3.12.0
+- Bootstrap Version: 4.0
 
 ## Features
 
@@ -50,16 +50,16 @@ Follow these steps to set up the project locally:
     
 ##Usage
 
-Access the portal at http://127.0.0.1:8000
-Log in using default admin credentials (set in the admin panel).
-Upload company data csv and view thier count in the dashboard.
+- Access the portal at http://127.0.0.1:8000
+- Log in using default admin credentials (set in the admin panel).
+- Upload company data csv and view thier count in the dashboard.
 
 
 ## project Urls
 
-http://127.0.0.1:8000/accounts/login/
-http://127.0.0.1:8000/accounts/signup/
+1. http://127.0.0.1:8000/accounts/login/
+2. http://127.0.0.1:8000/accounts/signup/
 
 ## API Urls
-http://127.0.0.1:8000/api/companydata/
-http://127.0.0.1:8000/api/fileupload/
+1. http://127.0.0.1:8000/api/companydata/
+2. http://127.0.0.1:8000/api/fileupload/
