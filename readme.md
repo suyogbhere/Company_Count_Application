@@ -48,7 +48,7 @@ Follow these steps to set up the project locally:
     ```bash
     python manage.py runserver
     
-##Usage
+## Usage
 
 - Access the portal at http://127.0.0.1:8000
 - Log in using default admin credentials (set in the admin panel).

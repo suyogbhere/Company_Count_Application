@@ -16,11 +16,12 @@ def index(request):
 
 def create_db(file_path):
     df = pd.read_csv(file_path, delimiter=',')
-    print('DF:....',df)
-    print('DF_KEYS:....',df.keys)
-    print('df_values...',df.values)
+    # df['year_founded'] = df['year_founded'].fillna(0).astype(int)
+    # print('DF:....',df)
+    # print('DF_KEYS:....',df.keys)
+    # print('df_values...',df.values)
     # df['year_founded'] = df['year_founded'].apply(lambda x: 0 if pd.isna(x) else int(x))
-    df['year_founded'] = df['year_founded'].apply(lambda x: 0 if pd.isnan(x) else int(x))
+    # df['year_founded'] = df['year_founded'].apply(lambda x: 0 if pd.isnan(x) else int(x))
     list_of_csv = [list(row)  for row in df.values]
     for l in list_of_csv:
         Company_data.objects.create(
@@ -64,7 +65,7 @@ def query_builder(request):
         elif ind:
             Employee = Company_data.objects.filter(industry__icontains=ind)
         elif yf:
-            Employee = Company_data.objects.filter(year_founded__exact=yf)
+            Employee = Company_data.objects.filter(year_founded__iexact=yf)
         elif ct:
             Employee = Company_data.objects.filter(locality__icontains=ct)
         elif st:
@@ -72,7 +73,7 @@ def query_builder(request):
         elif con:
             Employee = Company_data.objects.filter(country__icontains=con)  
         count = Employee.count()
-        print(count)    
+        # print(count)    
         messages.success(request,f'{count} Records found for the query')
     return render(request, 'app/query_builder.html', locals())
 
