@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'rest_framework',
     'api',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -180,3 +181,13 @@ ACCOUNT_FORMS = {
     'signup': 'app.forms.CustomSignupForm',
     'login' : 'app.forms.CustomLoginForm',
 }
+
+
+
+#CELERY SETTINGS 
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Kolkata'
+CELERY_RESULT_BACKEND = 'django-db'

@@ -1,50 +1,27 @@
 from django.shortcuts import render
 from django.contrib import messages
 from app.models import File, Company_data
-import pandas as pd
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from allauth.account.forms import LoginForm
-import math
+from app.tasks import create_db
 
 # Create your views here.
 
 def index(request):
     return render(request, 'app/profile.html')
 
-
-def create_db(file_path):
-    df = pd.read_csv(file_path, delimiter=',')
-    # df['year_founded'] = df['year_founded'].fillna(0).astype(int)
-    # print('DF:....',df)
-    # print('DF_KEYS:....',df.keys)
-    # print('df_values...',df.values)
-    # df['year_founded'] = df['year_founded'].apply(lambda x: 0 if pd.isna(x) else int(x))
-    # df['year_founded'] = df['year_founded'].apply(lambda x: 0 if pd.isnan(x) else int(x))
-    list_of_csv = [list(row)  for row in df.values]
-    for l in list_of_csv:
-        Company_data.objects.create(
-            id = l[0],
-            name = l[1],
-            domain = l[2],
-            year_founded = l[3],
-            industry = l[4],
-            size_range = l[5],
-            locality = l[6],
-            country = l[7],
-            linkedin_url = l[8],
-            current_employee_estimate = l[9],
-            total_employee_estimate = l[10],
-        )
-
 @login_required
 def upload_data(request):
     if request.method == 'POST':
         file = request.FILES['file']
+        # Save the file and create a database record
         obj = File.objects.create(file=file)
-        create_db(obj.file)
-        messages.success(request,'File Uploaded successfully!!!')
+        # print('FILE_PATH:',obj.file.path)
+        create_db.delay(obj.file.path)
+        # Notify the user
+        messages.success(request, 'File uploaded successfully!! Processing in the background.')
     return render(request, 'app/upload_data.html')
 
 @login_required

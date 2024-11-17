@@ -4,6 +4,9 @@ https://github.com/suyogbhere/Company_Count_Application/tree/master
 
 - Python Version: Python 3.12.0
 - Bootstrap Version: 4.0
+- Database version: Postgresql 17
+- asynchronous file uploads with Celery in Django
+- redis  ( celery worker )
 
 ## Features
 
@@ -25,6 +28,10 @@ Follow these steps to set up the project locally:
     git clone https://github.com/suyogbhere/Company_Count_Application/tree/master
     cd https://github.com/suyogbhere/Company_Count_Application/tree/master
     ```
+
+2. install the redis (celery worker) for windows 
+    https://github.com/tporadowski/redis/releases  
+
 2. Create and activate a virtual environment:
     ```bash
     python -m venv venv
@@ -44,10 +51,15 @@ Follow these steps to set up the project locally:
 6. If you want your own superuser account run below commmand
     python manage.py createsuperuser
 
-6. Start the development server:
+7. Start the development server:
     ```bash
     python manage.py runserver
-    
+
+8. Start the celery server:
+    ```bash
+    celery -A company_count_application.celery worker --pool=solo -l info    (for windows )
+
+
 ## Usage
 
 - Access the portal at http://127.0.0.1:8000
