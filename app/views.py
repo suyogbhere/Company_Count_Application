@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from allauth.account.forms import LoginForm
+import math
 
 # Create your views here.
 
@@ -15,7 +16,11 @@ def index(request):
 
 def create_db(file_path):
     df = pd.read_csv(file_path, delimiter=',')
-    print(df.values)
+    print('DF:....',df)
+    print('DF_KEYS:....',df.keys)
+    print('df_values...',df.values)
+    # df['year_founded'] = df['year_founded'].apply(lambda x: 0 if pd.isna(x) else int(x))
+    df['year_founded'] = df['year_founded'].apply(lambda x: 0 if pd.isnan(x) else int(x))
     list_of_csv = [list(row)  for row in df.values]
     for l in list_of_csv:
         Company_data.objects.create(
@@ -38,6 +43,7 @@ def upload_data(request):
         file = request.FILES['file']
         obj = File.objects.create(file=file)
         create_db(obj.file)
+        messages.success(request,'File Uploaded successfully!!!')
     return render(request, 'app/upload_data.html')
 
 @login_required

@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path,include
 from app import  views
 from allauth.account import views as auth_views 
 from django.conf import settings

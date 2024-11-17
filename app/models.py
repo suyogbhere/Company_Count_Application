@@ -10,13 +10,17 @@ class Company_data(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
     domain = models.CharField(max_length=100)
-    year_founded = models.IntegerField()
+    year_founded = models.IntegerField(null=True,blank=True)
     industry = models.CharField(max_length=255)
-    size_range = models.CharField()
+    size_range = models.CharField(max_length=200)
     locality = models.CharField(max_length=255)
     country = models.CharField(max_length=200)
     linkedin_url = models.URLField()
     current_employee_estimate = models.IntegerField()
     total_employee_estimate = models.IntegerField()
 
+    # def validate_year_founded(self, value):
+    #     if value is None or value == float('nan'):  # Check for NaN
+    #         return 0  # Replace with default value or handle as required
+    #     return value
 

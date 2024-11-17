@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'app',
     'allauth',
     'allauth.account',
+    'rest_framework',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -146,6 +148,7 @@ MEDIA_ROOT=BASE_DIR / 'Data_Files'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
+# custom Message Framework
 from django.contrib.messages import constants as messages
 MESSAGE_TAGS={
     messages.ERROR:'danger',
@@ -157,11 +160,14 @@ MESSAGE_TAGS={
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+#Django All-auth AUthentication
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # Default
     'allauth.account.auth_backends.AuthenticationBackend',  # Allauth backend
 ]
 
+#Django All-auth AUthentication redirection
 LOGOUT_REDIRECT_URL ="/"
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_ON_GET = True
